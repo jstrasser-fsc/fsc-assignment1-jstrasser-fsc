@@ -11,6 +11,7 @@ const messageEndDate = document.querySelector('#End-Date');
 
 
 
+
 weatherForm.addEventListener('submit',(e)=>{
     e.preventDefault();
     const Name = input[0].value;
@@ -37,12 +38,20 @@ weatherForm.addEventListener('submit',(e)=>{
                 console.log(data.startDate);
                 console.log(data.endDate);
                 console.log(data.status);
-                messageOne.textContent =  "New Reservation Completed"
-                messageReservation.textContent = "--Reservation--";
-                messageName.textContent = data.name;
-                messageLocation.textContent = data.location;
-                messageStartDate.textContent = data.startDate;
-                messageEndDate.textContent = data.endDate;
+                if(data.name != ""&& data.location !=""&& data.startDate != "" && data.endDate !="")
+                {
+                    messageOne.textContent =  "New Reservation Completed"
+                    messageReservation.textContent = "--Reservation--";
+                    messageName.textContent = "Name: ".concat(data.name);
+                    messageLocation.textContent = "Location: ".concat(data.location);
+                    messageStartDate.textContent = "Start Date: ".concat(data.startDate);
+                    messageEndDate.textContent = "End Date: ".concat(data.endDate);
+                }
+                else{
+                    messageOne.textContent =  "Need complete information... there are 4 fields!!!"
+
+                }
+                
             }
         })
     })
