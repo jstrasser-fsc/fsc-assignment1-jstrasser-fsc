@@ -32,6 +32,7 @@ app.get('', (req, res) => {
 })
 
 
+
 app.get('/post',(req,res)=>{ 
     // console.log("I need to be here");
     
@@ -56,26 +57,10 @@ app.get('/post',(req,res)=>{
         }
         
     };
-    // console.log((loadReservations()));
     const currentReservations  = loadReservations();
     currentReservations.push(reservation)
-    // console.log(currentReservations);
-    // var allReservations = [loadReservations(),reservation];
-    // console.log('all reservations',allReservations)
-    
-    // console.log('here2')
-    // var newReservations = currentReservations.push(reservation);
-    // console.log(currentReservations),
-    // console.log(reservation);
-    // console.log(typeof currentReservations);
-    // console.log(typeof reservation);
-    // console.log(currentReservations.push(reservation));
-    // console.log(currentReservations);
     fs.writeFileSync('reservations.json',JSON.stringify(currentReservations));
-    
-    // fs.writeFileSync('reservations.json',JSON.stringify({
-    //     name: 'James'
-    // }));
+
     res.send(
         {
             name: reservation.name,
@@ -85,6 +70,32 @@ app.get('/post',(req,res)=>{
             status: 'Success'
         }
     )
+})
+
+app.get('/myReservations',(req,res)=>{
+    const reservationsJSON = fs.readFileSync('reservations.json');
+    if(reservationsJSON)
+    {
+        const reservations = JSON.parse(reservationsJSON);
+        const latestReservatioon = reservations[reservations.length-1];
+        const name = latestReservatioon.name;
+        const location = latestReservatioon.location;
+        const startDate = latestReservatioon.startDate;
+        const endDate = latestReservatioon.endDate;
+        res.render('myReservations',
+            {
+                title: "My Reservations",
+                name: "James Strasser",
+                reservationsJSON: reservationsJSON,
+                reservations: reservations,
+                name: "Name: ".concat(name),
+                location: "Location: ".concat(location),
+                startDate: "Start Date: ".concat(startDate),
+                endDate: "End Date: ".concat(endDate)
+            }
+        )
+    }
+    
 })
 app.get('/about', (req, res) => {
     // res.redirect()

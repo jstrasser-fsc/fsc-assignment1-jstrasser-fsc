@@ -33,11 +33,6 @@ weatherForm.addEventListener('submit',(e)=>{
                 messageOne.textContent = data.error;
             }
             else{
-                console.log(data.name);
-                console.log(data.location);
-                console.log(data.startDate);
-                console.log(data.endDate);
-                console.log(data.status);
                 if(data.name != ""&& data.location !=""&& data.startDate != "" && data.endDate !="")
                 {
                     messageOne.textContent =  "New Reservation Completed"
