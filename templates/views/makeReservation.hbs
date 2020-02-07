@@ -12,11 +12,11 @@
 
                 <p>Use this site to make a reservation</p>
 
-                <form action = "/post" method="POST"> 
+                <form action = "/post" method="post"> 
                     <input name = "name" placeholder = "Name">
                     <input name = "location" placeholder = "Location">
-                    <input type = "date" name = "startDate" placeholder = "Start Date">
-                    <input type = "date" name = "endDate" placeholder = "End Date">
+                    <input  type = "date" name = "startDate" placeholder = "Start Date">
+                    <input  type = "date" name = "endDate" placeholder = "End Date">
                     <button>Submit</button>
                 </form>
                 <p id = "message-1"></p>
@@ -30,7 +30,7 @@
             </div>
             {{>footer}}
 
-            <script src="/js/app.js"></script>
+            {{!-- <script src="/js/app.js"></script> --}}
 
         </body>
    

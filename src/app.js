@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const hbs = require('hbs');
-const app = express();
+var app = express();
 const port = process.env.PORT || 3000;
 const fs = require('fs');
 
@@ -10,6 +10,9 @@ const publicDirectoryPath = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views');
 const partialsPath = path.join(__dirname, '../templates/partials');
 
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 
 
@@ -33,16 +36,41 @@ app.get('', (req, res) => {
 
 
 
-app.get('/post',(req,res)=>{ 
-    // console.log("I need to be here");
-    
-    if (!req.query.reservation) {
-        return res.send({
-            error: 'You must provide a reservation!'
-        })
-    }
+app.post('/post',(req,res)=>{ 
+    // console.log("I need to be here");    console.log(req)
+    // console.log(req)
+    // console.log(req.Name);
+    // console.log(req)
+    // console.log(req.body)
+    const body = req.body;
+    console.log(body.name)
+    // if (!req.query.reservation) {
+    //     return res.send({
+    //         error: 'You must provide a reservation!'
+    //     })
+    // }
     // console.log(JSON.parse(req.query.reservation))
-    let reservation = JSON.parse(req.query.reservation);
+
+    // let reservation = JSON.parse(req.query.reservation);
+    let reservation = {
+        name: body.name,
+        location: body.location,
+        startDate: body.startDate,
+        endDate: body.endDate
+    }
+    res.render('myReservations',
+            {
+                title: "My Reservations",
+                name: "James Strasser",
+                // reservationsJSON: reservationsJSON,
+                // reservations: reservations,
+                name: "Name: ".concat(body.name),
+                location: "Location: ".concat(body.location),
+                startDate: "Start Date: ".concat(body.startDate),
+                endDate: "End Date: ".concat(body.endDate)
+            }
+        )
+    console.log(reservation);
     let loadReservations =()=>
     {
         try{
@@ -60,16 +88,17 @@ app.get('/post',(req,res)=>{
     const currentReservations  = loadReservations();
     currentReservations.push(reservation)
     fs.writeFileSync('reservations.json',JSON.stringify(currentReservations));
+    // fs.writeFileSync('reservations.json',JSON.stringify(reservation));
 
-    res.send(
-        {
-            name: reservation.name,
-            location: reservation.location,
-            startDate: reservation.startDate,
-            endDate: reservation.endDate,
-            status: 'Success'
-        }
-    )
+    // res.send(
+    //     {
+    //         name: reservation.name,
+    //         location: reservation.location,
+    //         startDate: reservation.startDate,
+    //         endDate: reservation.endDate,
+    //         status: 'Success'
+    //     }
+    // )
 })
 
 app.get('/myReservations',(req,res)=>{
